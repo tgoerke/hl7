@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+  "encoding/json"
 
 	"github.com/mylanconnolly/hl7"
 )
@@ -31,17 +32,24 @@ func main() {
 	for {
 		i++
 		msg, err := reader.ReadMessage()
+    
+
 
 		if err != nil {
 			break
 		}
 		for {
-			_, err = msg.ReadSegment()
+			segment, err := msg.ReadSegment()
 
 			if err != nil {
 				break
 			}
 			fmt.Println("Found segment!")
+      //fmt.Println(segment)
+      
+      b, err := json.Marshal(segment) 
+      os.Stdout.Write(b)
+
 		}
 	}
 }
